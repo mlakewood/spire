@@ -13,4 +13,25 @@ services:
     tty: true
     volumes:
       - .:/root/go/src/github.com/spiffe/spire
-
+  roach-ui:
+    image: cockroachdb/cockroach:v2.0.2
+    command: start --insecure
+    ports:
+      - 8080:8080
+    volumes:
+      - ./data/roach-ui:/cockroach/cockroach-data
+  roach-one:
+    image: cockroachdb/cockroach:v2.0.2
+    command: start --insecure --join=roach-ui
+    volumes:
+      - ./data/roach-one:/cockroach/cockroach-data
+  roach-two:
+    image: cockroachdb/cockroach:v2.0.2
+    command: start --insecure --join=roach-ui
+    volumes:
+      - ./data/roach-two:/cockroach/cockroach-data
+  roach-three:
+    image: cockroachdb/cockroach:v2.0.2
+    command: start --insecure --join=roach-ui
+    volumes:
+      - ./data/roach-three:/cockroach/cockroach-data
